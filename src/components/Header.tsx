@@ -1,15 +1,39 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsMenuOpen(false);
+  const navigateToSection = (id: string) => {
+    setIsMenuOpen(false);
+    
+    if (location.pathname === "/") {
+      // Se já está na home, só faz o scroll
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Se está em outra página, navega para home e depois faz scroll
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  };
+
+  const handleLogoClick = () => {
+    setIsMenuOpen(false);
+    navigate("/");
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -18,37 +42,42 @@ const Header = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-primary">PWR Tecnologia</h1>
+            <button 
+              onClick={handleLogoClick}
+              className="text-2xl font-bold text-primary hover:opacity-80 transition-opacity cursor-pointer"
+            >
+              PWR Tecnologia
+            </button>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <button
-              onClick={() => scrollToSection("inicio")}
+              onClick={() => navigateToSection("inicio")}
               className="text-foreground hover:text-accent transition-colors font-medium"
             >
               Início
             </button>
             <button
-              onClick={() => scrollToSection("solucoes")}
+              onClick={() => navigateToSection("solucoes")}
               className="text-foreground hover:text-accent transition-colors font-medium"
             >
               Soluções
             </button>
             <button
-              onClick={() => scrollToSection("diferenciais")}
+              onClick={() => navigateToSection("diferenciais")}
               className="text-foreground hover:text-accent transition-colors font-medium"
             >
               Diferenciais
             </button>
             <button
-              onClick={() => scrollToSection("sobre")}
+              onClick={() => navigateToSection("sobre")}
               className="text-foreground hover:text-accent transition-colors font-medium"
             >
               Sobre nós
             </button>
             <Button
-              onClick={() => scrollToSection("contato")}
+              onClick={() => navigateToSection("contato")}
               className="bg-accent hover:bg-accent/90 text-accent-foreground"
             >
               Fale com a PWR
@@ -68,31 +97,31 @@ const Header = () => {
         {isMenuOpen && (
           <nav className="md:hidden py-4 space-y-3 animate-fade-in">
             <button
-              onClick={() => scrollToSection("inicio")}
+              onClick={() => navigateToSection("inicio")}
               className="block w-full text-left py-2 text-foreground hover:text-accent transition-colors font-medium"
             >
               Início
             </button>
             <button
-              onClick={() => scrollToSection("solucoes")}
+              onClick={() => navigateToSection("solucoes")}
               className="block w-full text-left py-2 text-foreground hover:text-accent transition-colors font-medium"
             >
               Soluções
             </button>
             <button
-              onClick={() => scrollToSection("diferenciais")}
+              onClick={() => navigateToSection("diferenciais")}
               className="block w-full text-left py-2 text-foreground hover:text-accent transition-colors font-medium"
             >
               Diferenciais
             </button>
             <button
-              onClick={() => scrollToSection("sobre")}
+              onClick={() => navigateToSection("sobre")}
               className="block w-full text-left py-2 text-foreground hover:text-accent transition-colors font-medium"
             >
               Sobre nós
             </button>
             <Button
-              onClick={() => scrollToSection("contato")}
+              onClick={() => navigateToSection("contato")}
               className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
             >
               Fale com a PWR
