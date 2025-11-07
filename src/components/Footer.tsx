@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -85,7 +87,15 @@ const Footer = () => {
         <div className="border-t border-primary-foreground/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
             <p>CNPJ: 55.360.017/0001-41</p>
-            <p>© 2025 PWR Tecnologia. Todos os direitos reservados.</p>
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <Link 
+                to="/termos-de-servico" 
+                className="hover:text-primary-foreground transition-colors"
+              >
+                Termos de Serviço
+              </Link>
+              <p>© 2025 PWR Tecnologia. Todos os direitos reservados.</p>
+            </div>
           </div>
         </div>
       </div>
